@@ -1,5 +1,6 @@
 import { v } from "convex/values";
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
+import { useMutation } from "convex/react";
 
 export const getTeam = query({
     args: {
@@ -10,6 +11,19 @@ export const getTeam = query({
         const result = await ctx.db.query('teams')
             .filter(q => q.eq(q.field('createdBy'), args.email))
             .collect();
+
+        return result;
+    }
+})
+
+export const createTeam = mutation({
+    args: {
+        teamName: v.string(),
+        createdBy: v.string()
+    },
+
+    handler: async (ctx, args) => {
+        const result = await ctx.db.insert('teams', args);
 
         return result;
     }
