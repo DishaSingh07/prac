@@ -7,11 +7,11 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
 function SideNav() {
 
-    const {user}:any = useKindeBrowserClient();
+    const { user }: any = useKindeBrowserClient();
 
     return (
-        <div className='bg-gray-100 h-screen fixed w-72 border-r p-6'>
-            <SideNavTopSection user={user}/>
+        <div className='h-screen fixed w-72 border-r p-6 border-[1px]'>
+            <SideNavTopSection user={user} />
         </div>
     )
 }
