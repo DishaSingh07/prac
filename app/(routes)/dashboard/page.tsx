@@ -40,11 +40,11 @@ function Dashboard() {
     return (
         <div>
             Dashboard
-            <Button>
+            {/* <Button>
                 <LogoutLink>
                     Logout
                 </LogoutLink>
-            </Button>
+            </Button> */}
         </div>
     )
 }
