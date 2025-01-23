@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import { DialogClose } from '@radix-ui/react-dialog'
 
 
-function SideNavBottomSection({onFileCreate} : any) {
+function SideNavBottomSection({ onFileCreate }: any) {
 
   const menuList = [
     {
@@ -50,7 +50,10 @@ function SideNavBottomSection({onFileCreate} : any) {
 
       {/* Add new file button */}
       <Dialog>
-        <DialogTrigger className='w-full'> <Button className='w-full bg-blue-600 hover:bg-blue-700 justify-start mt-3'>New File</Button></DialogTrigger>
+        <DialogTrigger asChild>
+          <Button className='w-full bg-blue-600 hover:bg-blue-700 justify-start mt-3'>New File</Button>
+        </DialogTrigger>
+
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create New File</DialogTitle>
