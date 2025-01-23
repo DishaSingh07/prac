@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import { DialogClose } from '@radix-ui/react-dialog'
 
 
-function SideNavBottomSection({ onFileCreate }: any) {
+function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
 
   const menuList = [
     {
@@ -80,12 +80,14 @@ function SideNavBottomSection({ onFileCreate }: any) {
 
       {/* Progress Bar */}
       <div className='h-4 w-full bg-gray-200 rounded-full mt-5'>
-        <div className='h-4 w-[40%] bg-blue-600 rounded-full'>
-
-        </div>
+        <div
+          className='h-4 bg-blue-600 rounded-full'
+          style={{ width: `${(totalFiles / 5) * 100}%` }}
+        ></div>
       </div>
+
       <h2 className='text-[12px] mt-3'>
-        <strong>1</strong> Out of <strong>5</strong> files used
+        <strong>{totalFiles}</strong> out of <strong>5</strong> files used
       </h2>
       <h2 className='text-[12px] mt-1'>Upgrade your plan for unlimited access</h2>
     </div>
