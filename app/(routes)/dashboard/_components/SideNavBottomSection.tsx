@@ -27,7 +27,7 @@ function SideNavBottomSection() {
   return (
     <div>
       {menuList.map((menu, index) => (
-        <h2 className='flex gap-2 p-1 px-2 text-[14px] hover:bg-gray-100 rounded-md cursor-pointer'>
+        <h2 key={index} className='flex gap-2 p-1 px-2 text-[14px] hover:bg-gray-100 rounded-md cursor-pointer'>
           <menu.icon className='h-5 w-5' />
           {menu.name}</h2>
       ))}
@@ -44,7 +44,7 @@ function SideNavBottomSection() {
       <h2 className='text-[12px] mt-3'>
         <strong>1</strong> Out of <strong>5</strong> files used
       </h2>
-      <h2 className='text-[12px] mt-1'>Upgrade ypur plab for unlimited access</h2>
+      <h2 className='text-[12px] mt-1'>Upgrade your plan for unlimited access</h2>
     </div>
   )
 }
