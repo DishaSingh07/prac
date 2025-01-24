@@ -5,6 +5,8 @@ import { LogoutLink, useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { useConvex, useMutation, useQuery } from 'convex/react'
 import React, { useEffect } from 'react'
 import { api } from '@/convex/_generated/api'
+import Header from './_components/Header'
+import FileList from './_components/FileList'
 
 
 function Dashboard() {
@@ -38,13 +40,10 @@ function Dashboard() {
     }
 
     return (
-        <div>
-            Dashboard
-            {/* <Button>
-                <LogoutLink>
-                    Logout
-                </LogoutLink>
-            </Button> */}
+        <div className='p-8'>
+            <Header />
+
+            <FileList/>
         </div>
     )
 }

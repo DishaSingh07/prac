@@ -29,7 +29,11 @@ export const getFiles = query({
     handler: async (ctx, args) => {
         const result = ctx.db.query('files')
             .filter(q => q.eq(q.field('teamId'), args.teamId))
+            .order('asc')
             .collect()
+        
+
+
 
         return result;
     }
