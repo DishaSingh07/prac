@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import EditorjsList from '@editorjs/list';
@@ -9,9 +9,33 @@ import Checklist from '@editorjs/checklist'
 import Paragraph from '@editorjs/paragraph';
 import Warning from '@editorjs/warning';
 
+const rawDocument = {
+    "time": 1550476186479,
+    "blocks": [{
+        data: {
+            text: 'Document Name',
+            level: 2
+        },
+        id: "123",
+        type: 'header'
+
+    },
+    {
+        data: {
+            level: 4
+        },
+        id: "1234",
+        type: 'header'
+
+    }
+],
+    "version": "2.8.1"
+}
+
 function Editor() {
 
     const ref = useRef<EditorJS | null>(null);
+    const [document, setDocument] = useState(rawDocument);
 
     useEffect(() => {
         initEditor();
@@ -62,7 +86,8 @@ function Editor() {
 
             },
 
-            holder: 'editorjs'
+            holder: 'editorjs',
+            data: document
         });
         ref.current = editor;
     }
