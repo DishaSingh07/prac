@@ -1,12 +1,16 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import WorkspaceHeader from '../_components/WorkspaceHeader'
 import Editor from '../_components/Editor'
 
-function Workspace() {
+function Workspace({params} : any) {
 
     const [triggerSave, setTriggerSave] = useState(false);
+
+    useEffect(()=>{
+        console.log("FILEID", params.fileID)
+    }, [])
 
     return (
         <div>
@@ -16,7 +20,7 @@ function Workspace() {
             <div className='grid grid-cols-1 md:grid-cols-2'>
                 {/* document */}
                 <div className='h-screen'>
-                    <Editor onSaveTrigger = {triggerSave} />
+                    <Editor onSaveTrigger = {triggerSave} fileID = {params.fileID} />
                 </div>
 
                 {/* whiteboard/canvas */}
