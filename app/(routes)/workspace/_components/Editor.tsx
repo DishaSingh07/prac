@@ -36,7 +36,7 @@ const rawDocument = {
     "version": "2.8.1"
 }
 
-function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileID: any, fileData: FILE }) {
+function Editor({ onSaveTrigger, fileID, fileData }: {onSaveTrigger: any, fileID: any, fileData: FILE}) {
 
     const ref = useRef<EditorJS | null>(null);
     const [document, setDocument] = useState(rawDocument);
@@ -53,17 +53,15 @@ function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileI
 
 
     const initEditor = () => {
-        let editorData = rawDocument; // Default document
 
-        if (fileData && fileData.document) {
-            try {
-                editorData = JSON.parse(fileData.document); // Parse only if it's a valid JSON string
-            } catch (error) {
-                console.error("Invalid JSON in fileData.document:", error);
-            }
-        }
+        
+
 
         const editor = new EditorJS({
+            /**
+             * Id of Element that should contain Editor instance
+             */
+
             tools: {
                 header: {
                     class: Header,
@@ -72,6 +70,7 @@ function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileI
                         placeholder: 'Enter the header'
                     }
                 },
+
                 list: {
                     class: EditorjsList,
                     inlineToolbar: true,
@@ -79,10 +78,12 @@ function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileI
                         defaultStyle: 'unordered'
                     }
                 },
+
                 checklist: {
                     class: Checklist,
                     inlineToolbar: true,
                 },
+
                 paragraph: {
                     class: Paragraph,
                     inlineToolbar: true,
@@ -94,17 +95,17 @@ function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileI
                     config: {
                         titlePlaceholder: 'Title',
                         messagePlaceholder: 'Message',
+
                     }
                 }
+
             },
 
             holder: 'editorjs',
-            data: editorData // Use the validated document data
+            data: fileData.document? JSON.parse(fileData.document) : rawDocument
         });
-
         ref.current = editor;
-    };
-
+    }
 
     const onSaveDocument = () => {
         if (ref.current) {
@@ -113,14 +114,14 @@ function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileI
                 updateDocument({
                     _id: fileID,
                     document: JSON.stringify(outputData)
-                }).then(resp => {
-
-                    toast('Document Updated!')
-
-                }, (e) => {
+                }).then(resp=>{
+                   
+                        toast('Document Updated!')
+                    
+                },(e)=>{
                     toast('Server Error!')
                 }
-                )
+            )
             }).catch((error) => {
                 console.log('Saving failed: ', error)
             });
