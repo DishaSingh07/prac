@@ -11,6 +11,7 @@ import Warning from '@editorjs/warning';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
+import { FILE } from '../../dashboard/_components/FileList';
 
 const rawDocument = {
     "time": 1550476186479,
@@ -35,15 +36,15 @@ const rawDocument = {
     "version": "2.8.1"
 }
 
-function Editor({ onSaveTrigger, fileID }: any) {
+function Editor({ onSaveTrigger, fileID, fileData }: { onSaveTrigger: any, fileID: any, fileData: FILE }) {
 
     const ref = useRef<EditorJS | null>(null);
     const [document, setDocument] = useState(rawDocument);
     const updateDocument = useMutation(api.files.updateDocument)
 
     useEffect(() => {
-        initEditor();
-    }, [])
+        fileData && initEditor();
+    }, [fileData])
 
     useEffect(() => {
         console.log("trigger value : ", onSaveTrigger);
@@ -52,11 +53,17 @@ function Editor({ onSaveTrigger, fileID }: any) {
 
 
     const initEditor = () => {
-        const editor = new EditorJS({
-            /**
-             * Id of Element that should contain Editor instance
-             */
+        let editorData = rawDocument; // Default document
 
+        if (fileData && fileData.document) {
+            try {
+                editorData = JSON.parse(fileData.document); // Parse only if it's a valid JSON string
+            } catch (error) {
+                console.error("Invalid JSON in fileData.document:", error);
+            }
+        }
+
+        const editor = new EditorJS({
             tools: {
                 header: {
                     class: Header,
@@ -65,7 +72,6 @@ function Editor({ onSaveTrigger, fileID }: any) {
                         placeholder: 'Enter the header'
                     }
                 },
-
                 list: {
                     class: EditorjsList,
                     inlineToolbar: true,
@@ -73,12 +79,10 @@ function Editor({ onSaveTrigger, fileID }: any) {
                         defaultStyle: 'unordered'
                     }
                 },
-
                 checklist: {
                     class: Checklist,
                     inlineToolbar: true,
                 },
-
                 paragraph: {
                     class: Paragraph,
                     inlineToolbar: true,
@@ -90,17 +94,17 @@ function Editor({ onSaveTrigger, fileID }: any) {
                     config: {
                         titlePlaceholder: 'Title',
                         messagePlaceholder: 'Message',
-
                     }
                 }
-
             },
 
             holder: 'editorjs',
-            data: document
+            data: editorData // Use the validated document data
         });
+
         ref.current = editor;
-    }
+    };
+
 
     const onSaveDocument = () => {
         if (ref.current) {
@@ -109,14 +113,14 @@ function Editor({ onSaveTrigger, fileID }: any) {
                 updateDocument({
                     _id: fileID,
                     document: JSON.stringify(outputData)
-                }).then(resp=>{
-                   
-                        toast('Document Updated!')
-                    
-                },(e)=>{
+                }).then(resp => {
+
+                    toast('Document Updated!')
+
+                }, (e) => {
                     toast('Server Error!')
                 }
-            )
+                )
             }).catch((error) => {
                 console.log('Saving failed: ', error)
             });
