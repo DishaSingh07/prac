@@ -28,11 +28,11 @@ const rawDocument = {
         type: 'header'
 
     }
-],
+    ],
     "version": "2.8.1"
 }
 
-function Editor() {
+function Editor({ onSaveTrigger }: any) {
 
     const ref = useRef<EditorJS | null>(null);
     const [document, setDocument] = useState(rawDocument);
@@ -40,6 +40,12 @@ function Editor() {
     useEffect(() => {
         initEditor();
     }, [])
+
+    useEffect(() => {
+        console.log("trigger value : ", onSaveTrigger);
+        onSaveTrigger && onSaveDocument();
+    }, [onSaveTrigger])
+
 
     const initEditor = () => {
         const editor = new EditorJS({
@@ -91,6 +97,17 @@ function Editor() {
         });
         ref.current = editor;
     }
+
+    const onSaveDocument = () => {
+        if (ref.current) {
+            ref.current.save().then((outputData) => {
+                console.log('Article data: ', outputData)
+            }).catch((error) => {
+                console.log('Saving failed: ', error)
+            });
+        }
+    }
+
     return (
         <div>
             <div id='editorjs' className='ml-20'>
